@@ -1,3 +1,28 @@
+const EventEmitter = require('events');
+const emitter = new EventEmitter();
+
+const Logger = require('./logger');
+const logger = new Logger();
+
+logger.on('hasLogged', (message) => {
+    console.log('The message has been received: ' + message);
+});
+
+function afficherNom(nom) {
+    logger.log(nom);
+}
+
+// console.log(logger);
+afficherNom('kien');
+
+
+// emitter.on('messageLogged', function(message) {
+//     console.log('Listener called');
+//     console.log(message.message);
+// })
+
+// emitter.emit('messageLogged', {id: 1, message: 'damn I\'m tired'});
+
 // const fs = require('fs');
 
 // fs.readdir('./', function(err, files) {
@@ -22,12 +47,5 @@
 
 // console.log(pathObj);
 
-// const logger = require('./logger');
 
-// function afficherNom(nom) {
-//     logger(nom);
-// }
-
-// console.log(logger);
-// afficherNom('kien');
 
