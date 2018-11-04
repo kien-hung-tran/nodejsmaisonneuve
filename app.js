@@ -1,19 +1,59 @@
-const EventEmitter = require('events');
-const emitter = new EventEmitter();
+const http = require('http');
 
-const Logger = require('./logger');
-const logger = new Logger();
+const cours = [
+    'http',
+    'node',
+    'npm'
+];
 
-logger.on('hasLogged', (message) => {
-    console.log('The message has been received: ' + message);
+const routes = {
+    '/js/cours': (req, res) => {
+        cours.forEach((element) => {
+            res.write(element)
+            res.write(' ');
+        });
+        res.end();
+    },
+    '/js/note': (req, res) => {
+        res.write('Voici une note');
+        res.end();
+    },
+};
+
+
+
+const server = http.createServer((req,res) => {
+    if (req.url === '/') {
+        res.write('Hello world');
+        res.end();
+    } else {
+        if (typeof routes[req.url] !== 'undefined') {
+            routes[req.url](req,res);
+        } else {
+            res.write('Invalid path');
+            res.end();
+        }
+    }
 });
 
-function afficherNom(nom) {
-    logger.log(nom);
-}
+server.listen(3000);
+
+// const EventEmitter = require('events');
+// const emitter = new EventEmitter();
+
+// const Logger = require('./logger');
+// const logger = new Logger();
+
+// logger.on('hasLogged', (message) => {
+//     console.log('The message has been received: ' + message);
+// });
+
+// function afficherNom(nom) {
+//     logger.log(nom);
+// }
 
 // console.log(logger);
-afficherNom('kien');
+// afficherNom('kien');
 
 
 // emitter.on('messageLogged', function(message) {
